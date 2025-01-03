@@ -1,0 +1,23 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "scripts": {
+    "tailwind": "npx tailwindcss -i ./internal/ui/styles.css -o ./internal/server/assets/css/styles.css --minify",
+    "build": "npx bun build ./internal/ui/app.ts --format=esm --outfile=./internal/server/assets/js/app.js --minify",
+    "install": "npx bun install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/alpinejs": "^3.13.10",
+    "@types/node": "^22.7.5",
+    "bun": "^1.1.30",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@alpinejs/persist": "^3.14.3",
+    "alpinejs": "^3.14.8"
+  }
+}

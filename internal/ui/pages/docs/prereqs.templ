@@ -1,0 +1,71 @@
+package docs
+
+import . "github.com/gofs-cli/website/internal/ui/components"
+
+templ Prereqs() {
+	<div class="flex flex-col gap-y-2">
+		<h1 class="mb-4 text-4xl font-extrabold">Prerequisites</h1>
+		<h2 class="mt-2 text-2xl font-extrabold">Familiarity with Go</h2>
+		<p class="para">
+			You should have some experience with Go. There are some good
+			tutorials <a class="link" href="https://go.dev/doc/tutorial/getting-started">here</a> and
+			<a class="link" href="https://tour.golang.org/welcome/1">here</a> which you can use to get started if
+			you are new to Go.
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Go toolchain</h2>
+		<p class="para">
+			<a class="link" href="https://go.dev/dl/">Download go</a> for your OS and install it.
+			The official instructions are <a class="link" href="https://go.dev/doc/install">here</a>.
+		</p>
+		<p class="para mt-4">
+			If you are using Windows, the installer should setup the path for you.
+			Ensure that `go` is on your path, you should be able to type the command below in `terminal` or `cmd/powershell` and see the installed go version.
+			@Cmdline("go version")
+		</p>
+		<p class="para mt-4">
+			Once go is installed, you can add the GOPATH to your system path. GOPATH is where go will install any tools installed using `go install`, This is typically your `$HOME/go/bin`, this should be added to your system PATH to allow you to run installed tools.
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Gofs cli</h2>
+		<p class="para">
+			Once go is installed, you can install the gofs cli by running:
+			@Cmdline("go get github.com/gofs-cli/gofs")
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Local Development</h2>
+		<p class="para">
+			The following tools are used in the build workflow to improve developer experience:
+			<ul class="my-2 max-w-md list-inside list-disc space-y-1">
+				<li class="text-lg text-gray-500 dark:text-gray-400">Make for example <a class="link" href="https://www.gnu.org/software/make/">GNU Make</a></li>
+				<li><a class="link" href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">Npm</a></li>
+			</ul>
+		</p>
+		<p class="para">
+			Once these tools are setup and you have initialized a project
+			you can install all required dependencies with:
+			@Cmdline("make deps")
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Database</h2>
+		<p class="para">
+			To run a local postgres you will need an OCI compliant container runtime such as:
+			<ul class="my-2 max-w-md list-inside list-disc space-y-1">
+				<li><a class="link" href="https://www.docker.com">Docker</a></li>
+				<li><a class="link" href="https://podman.io">Podman</a></li>
+			</ul>
+		</p>
+		<p class="para">
+			Once this is setup and you have initialized a project
+			you can start a Postgres instance with:
+			@Cmdline("make dbup")
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Deployment</h2>
+		<p class="para">
+			Deployment will be specific to your environment.
+			The gofs default template provides a Github Actions workflow, and this documentation
+			provides sample terraform code to deploy into AWS, Azure and GCP.
+			If you want to use this then you will require:
+			<ul class="my-2 max-w-md list-inside list-disc space-y-1">
+				<li><a class="link" href="https://github.com/features/actions">Github Actions</a></li>
+				<li><a class="link" href="https://www.terraform.io">Terraform</a></li>
+			</ul>
+		</p>
+	</div>
+}

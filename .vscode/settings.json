@@ -1,0 +1,44 @@
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[templ]": {
+    "editor.defaultFormatter": "a-h.templ"
+  },
+  "editor.formatOnSave": true,
+  "emmet.includeLanguages": {
+    "templ": "html"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "files.exclude": {
+    "**/*_templ.go": true,
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/CVS": true,
+    "**/Thumbs.db": true
+  },
+  "files.insertFinalNewline": true,
+  "go.testEnvFile": "${workspaceFolder}/.env",
+  "go.testFlags": [
+    "-tags=unit,gendata",
+    "-v",
+    "-count=1"
+  ],
+  "gopls": {
+    "formatting.local": "github.com/gofs-cli/website",
+    "formatting.gofumpt": true,
+    "build.buildFlags": [
+      "-tags=unit,gendata"
+    ]
+  },
+  "tailwindCSS.includeLanguages": {
+    "templ": "html"
+  }
+}

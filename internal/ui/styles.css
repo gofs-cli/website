@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+  display: none !important;
+}
+
+@layer components {
+  .para {
+    @apply text-lg text-gray-500 dark:text-gray-400;
+  }
+
+  .link {
+    @apply text-blue-600 hover:underline dark:text-blue-500;
+  }
+}

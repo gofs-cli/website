@@ -1,0 +1,38 @@
+package ui
+
+templ Index(page templ.Component) {
+	<!DOCTYPE html>
+	<html
+		lang="en"
+		x-data="{ darkMode: localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) }"
+		x-bind:class="{ 'dark': darkMode }"
+	>
+		<title>gofs</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<link rel="stylesheet" href="/assets/css/styles.css"/>
+		<link rel="icon" href="data:,"/>
+		<script defer src="/assets/js/htmx.min.js"></script>
+		<script defer src="/assets/js/response-targets.js"></script>
+		<script type="module" defer src="/assets/js/app.js"></script>
+		<body
+			hx-ext="response-targets"
+			hx-target-error="this"
+			class="bg-white text-black dark:bg-black dark:text-white"
+		>
+			<main class="flex w-full flex-col">
+				@page
+			</main>
+			@Footer()
+		</body>
+	</html>
+}
+
+templ Footer() {
+	<div class="mt-16 bg-white"></div>
+	<div class="bg-gray-800 text-white">
+		<div class="m-auto flex flex-col items-center space-y-4 px-8 py-24 md:w-[750px]">
+			<p class="font-title text-2xl leading-relaxed">May your apps live forever steven.lee@gmail.com</p>
+		</div>
+	</div>
+}

@@ -1,0 +1,46 @@
+package components
+
+import "encoding/json"
+
+templ Menu(path string, menu []NavItem) {
+	<div hx-boost="true" x-data={ Json(Vals{"path": path}) }>
+		<ul class="space-y-3 font-medium text-gray-500">
+			@renderItems(menu)
+		</ul>
+	</div>
+}
+
+type NavItem struct {
+	Text     string
+	Path     string
+	Children []NavItem
+}
+
+// Encoding hx values
+type Vals map[string]any
+
+func Json(vals Vals) string {
+	b, _ := json.Marshal(vals)
+	return string(b)
+}
+
+templ renderItems(items []NavItem) {
+	for _, item := range items {
+		if item.Path == "" {
+			<li>{ item.Text }</li>
+		} else {
+			<li>
+				<a
+					class="hover:cursor-pointer"
+					:class={ "{ 'text-black dark:text-white font-bold': path.includes('" + item.Path + "')}" }
+					href={ templ.SafeURL(item.Path) }
+				>{ item.Text }</a>
+			</li>
+		}
+		if len(item.Children) > 0 {
+			<ul class="space-y-1 pl-4">
+				@renderItems(item.Children)
+			</ul>
+		}
+	}
+}

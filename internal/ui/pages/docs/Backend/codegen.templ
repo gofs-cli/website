@@ -1,0 +1,32 @@
+package backend
+
+import . "github.com/gofs-cli/website/internal/ui/components"
+
+templ Codegen() {
+	<div class="flex flex-col">
+		<h1 class="mb-4 text-4xl font-extrabold">Codegen</h1>
+		<p class="para">
+			Gofs can generate the database CRUD functions and sql using go templates.
+			This requires gofs annotations on the struct fields and the struct itself.
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Annotations</h2>
+		<p class="para">
+			Lets prepare List for code generation. The annotation above the struct
+			tell gofs to generate the db helper functions and database create schema for List.
+			The field annotations tell gofs that ID is the primary key and Name is searchable.
+		</p>
+		@CodeBlock(Clipboard, `//go:generate gofs codegen db sql
+type List struct {
+	ID    string    `+"`"+`json:"id"   gofs:"pk"`+"`"+`
+	Name  string    `+"`"+`json:"name" gofs:"searchable"`+"`"+`
+	Items []string  `+"`"+`json:"items"`+"`"+`
+}
+`)
+		<h2 class="mt-2 text-2xl font-extrabold">Gofs templates</h2>
+		<p class="para">
+			Gofs templates can be found in the <code>.gofs/templates</code> folder.
+			You can modify these templates to suite your needs. You can also add new
+			templates and use them to generate your app specific code.
+		</p>
+	</div>
+}
