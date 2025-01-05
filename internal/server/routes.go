@@ -10,6 +10,7 @@ import (
 	"github.com/gofs-cli/website/internal/ui/pages/blogs"
 	"github.com/gofs-cli/website/internal/ui/pages/docs"
 	backend "github.com/gofs-cli/website/internal/ui/pages/docs/Backend"
+	frontend "github.com/gofs-cli/website/internal/ui/pages/docs/Frontend"
 )
 
 func (s *Server) Routes() {
@@ -28,6 +29,10 @@ func (s *Server) Routes() {
 	routesMux.Handle("GET /docs/backend/module", backend.ModulePage())
 	routesMux.Handle("GET /docs/backend/persistence", backend.PersistencePage())
 	routesMux.Handle("GET /docs/backend/codegen", backend.CodegenPage())
+	routesMux.Handle("GET /docs/frontend/noapi", frontend.NoapiPage())
+	routesMux.Handle("GET /docs/frontend/page", frontend.AddPage())
+	routesMux.Handle("GET /docs/frontend/handler", frontend.HandlerPage())
+	routesMux.Handle("GET /docs/frontend/routing", frontend.RoutingPage())
 	// blogs
 	routesMux.Handle("GET /blogs", blogs.IndexPage())
 	routesMux.Handle("GET /blogs/simplicity", blogs.SimplicyBlog())

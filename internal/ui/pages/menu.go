@@ -36,12 +36,20 @@ var LeftMenu = []components.NavItem{
 		Text: "Frontend",
 		Children: []components.NavItem{
 			{
+				Text: "No API",
+				Path: "/docs/frontend/noapi",
+			},
+			{
 				Text: "Adding a page",
 				Path: "/docs/frontend/page",
 			},
 			{
 				Text: "Routing",
 				Path: "/docs/frontend/routing",
+			},
+			{
+				Text: "Adding a handler",
+				Path: "/docs/frontend/handler",
 			},
 		},
 	},

@@ -3,7 +3,7 @@ package backend
 import . "github.com/gofs-cli/website/internal/ui/components"
 
 templ Persistence() {
-	<div class="flex flex-col">
+	<div class="flex flex-col gap-y-2">
 		<h1 class="mb-4 text-4xl font-extrabold">Persisting data</h1>
 		<h2 class="mt-2 text-2xl font-extrabold">Json serialization</h2>
 		<p class="para">
@@ -44,7 +44,7 @@ templ Persistence() {
 |  |--app
 |     |--list
 |        |--list.go
-|        |--list_database.go
+|        |--list_db.go
 `)
 		<p class="para">
 			The database CRUD functions will take a context and transaction, and execute
@@ -60,7 +60,7 @@ import (
 	"encoding/json"
 )
 
-func listCreate(ctx context.Context, tx *sql.Tx, list List) error {
+func createList(ctx context.Context, tx *sql.Tx, list *List) error {
 	jsonb, err := json.Marshal(&list)
 	if err != nil {
 		return err
@@ -78,7 +78,7 @@ func listCreate(ctx context.Context, tx *sql.Tx, list List) error {
 	return err
 }
 
-func listGet(ctx context.Context, tx *sql.Tx, ID string) (*List, error) {
+func getListByID(ctx context.Context, tx *sql.Tx, ID string) (*List, error) {
 	var data []byte
 	err := tx.QueryRowContext(ctx, `+"`"+`
 		SELECT blob 
@@ -89,14 +89,10 @@ func listGet(ctx context.Context, tx *sql.Tx, ID string) (*List, error) {
 		return nil, err
 	}
 	var list List
-	err = json.Unmarshal(data, &list)
-	if err != nil {
-		return nil, err
-	}
-	return &list, nil
+	return &v, json.Unmarshal(data, &v)
 }
 
-func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
+func updateList(ctx context.Context, tx *sql.Tx, list *List) error {
 	jsonb, err := json.Marshal(&list)
 	if err != nil {
 		return err
@@ -110,6 +106,29 @@ func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
 		list.ID)
 	return err
 }
+
+func getLists(ctx context.Context, tx *sql.Tx, Name string) ([]List, error) {
+	rows, err := tx.QueryContext(ctx, "SELECT blob FROM lists LIMIT 5000",
+		Name)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	vs := []List{}
+	for rows.Next() {
+		var data []byte
+		if err = rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		var v List
+		if err = json.Unmarshal(data, &v); err != nil {
+			return nil, err
+		}
+		vs = append(vs, v)
+	}
+	return vs, nil
+}
 `)
 		<h2 class="mt-2 text-2xl font-extrabold">Update the API</h2>
 		<p class="para">
@@ -122,7 +141,7 @@ func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
 		Name: name,
 	}
 
-	err := listCreate(ctx, tx, *l)
+	err := createList(ctx, tx, l)
 	if err != nil {
 		return nil, err
 	}
@@ -131,19 +150,19 @@ func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
 }
 
 func AddItem(ctx context.Context, tx *sql.Tx, listID string, item string) error {
-	l, err := listGet(ctx, tx, listID)
+	l, err := getListByID(ctx, tx, listID)
 	if err != nil {
 		return err
 	}
 
 	// Check if the list is full
 	if len(l.Items) >= MaxItems {
-		return fmt.Errorf("Todo list is full")
+		return fmt.Errorf("todo list is full")
 	}
 
 	l.Items = append(l.Items, item)
 
-	err = listUpdate(ctx, tx, *l)
+	err = updateList(ctx, tx, l)
 	if err != nil {
 		return err
 	}

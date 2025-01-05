@@ -31,7 +31,7 @@ func Codegen() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col\"><h1 class=\"mb-4 text-4xl font-extrabold\">Codegen</h1><p class=\"para\">Gofs can generate the database CRUD functions and sql using go templates. This requires gofs annotations on the struct fields and the struct itself.</p><h2 class=\"mt-2 text-2xl font-extrabold\">Annotations</h2><p class=\"para\">Lets prepare List for code generation. The annotation above the struct tell gofs to generate the db helper functions and database create schema for List. The field annotations tell gofs that ID is the primary key and Name is searchable.</p>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col gap-y-2\"><h1 class=\"mb-4 text-4xl font-extrabold\">Codegen</h1><p class=\"para\">Gofs can generate the database CRUD functions and sql using go templates. This requires gofs annotations on the struct fields and the struct itself.</p><h2 class=\"mt-2 text-2xl font-extrabold\">Annotations</h2><p class=\"para\">Lets prepare <code>List</code> for code generation. The annotation above the struct tell gofs to generate the db helper functions and database create schema for List. The field annotations tell gofs that ID is the primary key and Name is searchable.</p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +45,25 @@ type List struct {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<h2 class=\"mt-2 text-2xl font-extrabold\">Gofs templates</h2><p class=\"para\">Gofs templates can be found in the <code>.gofs/templates</code> folder. You can modify these templates to suite your needs. You can also add new templates and use them to generate your app specific code.</p></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<p class=\"para\">Running codegen will create files with the suffix <code>_generated</code>,  specifically <code>/internal/app/list/list_db_generated.go</code> with helper functions for the database CRUD operations, and <code>/internal/db/migrations/lists_generated.sql</code>. In the mytodo example, once these generated files are created, you will need to remove the hand written code added in the persistence section.")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = CodeBlock(NoClipboard, `mytodo
+|--internal
+|  |--app
+|  |  |--list
+|  |     |--list.go
+|  |     |--list_db_generated.go
+|  |--db
+|     |--migrations
+|        |--lists_generated.sql
+
+`).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><h2 class=\"mt-2 text-2xl font-extrabold\">Gofs templates</h2><p class=\"para\">Gofs templates can be found in the <code>.gofs/templates</code> folder. You can modify these templates to suite your needs. You can also add new templates and use them to generate your app specific code.</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

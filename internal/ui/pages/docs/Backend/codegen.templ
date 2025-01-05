@@ -3,7 +3,7 @@ package backend
 import . "github.com/gofs-cli/website/internal/ui/components"
 
 templ Codegen() {
-	<div class="flex flex-col">
+	<div class="flex flex-col gap-y-2">
 		<h1 class="mb-4 text-4xl font-extrabold">Codegen</h1>
 		<p class="para">
 			Gofs can generate the database CRUD functions and sql using go templates.
@@ -11,7 +11,7 @@ templ Codegen() {
 		</p>
 		<h2 class="mt-2 text-2xl font-extrabold">Annotations</h2>
 		<p class="para">
-			Lets prepare List for code generation. The annotation above the struct
+			Lets prepare <code>List</code> for code generation. The annotation above the struct
 			tell gofs to generate the db helper functions and database create schema for List.
 			The field annotations tell gofs that ID is the primary key and Name is searchable.
 		</p>
@@ -22,6 +22,25 @@ type List struct {
 	Items []string  `+"`"+`json:"items"`+"`"+`
 }
 `)
+		<p class="para">
+			Running codegen will create files with the suffix <code>_generated</code>, 
+			specifically <code>/internal/app/list/list_db_generated.go</code> with helper
+			functions for the database CRUD operations, and
+			<code>/internal/db/migrations/lists_generated.sql</code>.
+			In the mytodo example, once these generated files are created, you will need
+			to remove the hand written code added in the persistence section.
+			@CodeBlock(NoClipboard, `mytodo
+|--internal
+|  |--app
+|  |  |--list
+|  |     |--list.go
+|  |     |--list_db_generated.go
+|  |--db
+|     |--migrations
+|        |--lists_generated.sql
+
+`)
+		</p>
 		<h2 class="mt-2 text-2xl font-extrabold">Gofs templates</h2>
 		<p class="para">
 			Gofs templates can be found in the <code>.gofs/templates</code> folder.

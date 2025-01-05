@@ -65,7 +65,7 @@ func Module() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<h3 class=\"text-2xl font-extrabold\">Create the list api</h3><p class=\"para\">Create a new file <code>/internal/app/list/list.go</code> with the <code>List</code> struct and functions for creating a new todo list and adding items to the list. Database code will be added later. ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<h3 class=\"text-2xl font-extrabold\">Create the list api</h3><p class=\"para\">Create a new file <code>/internal/app/list/list.go</code> with the <code>List</code> struct and functions for creating a new todo list and adding items to the list. NB: This code is incomplete, you need to add the database code from  <a class=\"link\" href=\"/docs/backend/persistence\">Persisting data</a> before it will compile.")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

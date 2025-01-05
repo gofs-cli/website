@@ -31,7 +31,7 @@ func Persistence() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col\"><h1 class=\"mb-4 text-4xl font-extrabold\">Persisting data</h1><h2 class=\"mt-2 text-2xl font-extrabold\">Json serialization</h2><p class=\"para\">We recommend persisting objects using a hybrid relational and nosql model where nosql data is stored as json blobs in a database. You can use different strategies such as pure-relational and you can also use an ORM. We have written a blog post on why we recommend using a hybrid approach <a class=\"link\" href=\"/blogs/nosql\">Sql DB, NoSql Schema</a> that you may find interesting.</p><p class=\"para\">In the file <code>/internal/app/list/list.go</code> lets prepare  the <code>List</code> struct for persistence by adding  json serialization annotations.  </p>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col gap-y-2\"><h1 class=\"mb-4 text-4xl font-extrabold\">Persisting data</h1><h2 class=\"mt-2 text-2xl font-extrabold\">Json serialization</h2><p class=\"para\">We recommend persisting objects using a hybrid relational and nosql model where nosql data is stored as json blobs in a database. You can use different strategies such as pure-relational and you can also use an ORM. We have written a blog post on why we recommend using a hybrid approach <a class=\"link\" href=\"/blogs/nosql\">Sql DB, NoSql Schema</a> that you may find interesting.</p><p class=\"para\">In the file <code>/internal/app/list/list.go</code> lets prepare  the <code>List</code> struct for persistence by adding  json serialization annotations.  </p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -65,7 +65,7 @@ func Persistence() templ.Component {
 |  |--app
 |     |--list
 |        |--list.go
-|        |--list_database.go
+|        |--list_db.go
 `).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -82,7 +82,7 @@ import (
 	"encoding/json"
 )
 
-func listCreate(ctx context.Context, tx *sql.Tx, list List) error {
+func createList(ctx context.Context, tx *sql.Tx, list *List) error {
 	jsonb, err := json.Marshal(&list)
 	if err != nil {
 		return err
@@ -100,7 +100,7 @@ func listCreate(ctx context.Context, tx *sql.Tx, list List) error {
 	return err
 }
 
-func listGet(ctx context.Context, tx *sql.Tx, ID string) (*List, error) {
+func getListByID(ctx context.Context, tx *sql.Tx, ID string) (*List, error) {
 	var data []byte
 	err := tx.QueryRowContext(ctx, `+"`"+`
 		SELECT blob 
@@ -111,14 +111,10 @@ func listGet(ctx context.Context, tx *sql.Tx, ID string) (*List, error) {
 		return nil, err
 	}
 	var list List
-	err = json.Unmarshal(data, &list)
-	if err != nil {
-		return nil, err
-	}
-	return &list, nil
+	return &v, json.Unmarshal(data, &v)
 }
 
-func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
+func updateList(ctx context.Context, tx *sql.Tx, list *List) error {
 	jsonb, err := json.Marshal(&list)
 	if err != nil {
 		return err
@@ -131,6 +127,29 @@ func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
 		jsonb,
 		list.ID)
 	return err
+}
+
+func getLists(ctx context.Context, tx *sql.Tx, Name string) ([]List, error) {
+	rows, err := tx.QueryContext(ctx, "SELECT blob FROM lists LIMIT 5000",
+		Name)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	vs := []List{}
+	for rows.Next() {
+		var data []byte
+		if err = rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		var v List
+		if err = json.Unmarshal(data, &v); err != nil {
+			return nil, err
+		}
+		vs = append(vs, v)
+	}
+	return vs, nil
 }
 `).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -146,7 +165,7 @@ func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
 		Name: name,
 	}
 
-	err := listCreate(ctx, tx, *l)
+	err := createList(ctx, tx, l)
 	if err != nil {
 		return nil, err
 	}
@@ -155,19 +174,19 @@ func listUpdate(ctx context.Context, tx *sql.Tx, list List) error {
 }
 
 func AddItem(ctx context.Context, tx *sql.Tx, listID string, item string) error {
-	l, err := listGet(ctx, tx, listID)
+	l, err := getListByID(ctx, tx, listID)
 	if err != nil {
 		return err
 	}
 
 	// Check if the list is full
 	if len(l.Items) >= MaxItems {
-		return fmt.Errorf("Todo list is full")
+		return fmt.Errorf("todo list is full")
 	}
 
 	l.Items = append(l.Items, item)
 
-	err = listUpdate(ctx, tx, *l)
+	err = updateList(ctx, tx, l)
 	if err != nil {
 		return err
 	}
