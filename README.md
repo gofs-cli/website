@@ -1,14 +1,23 @@
-# Golang full stack app
+# Gofs website
 
-## What does this app include out of the box?
+## Dependencies
 
-- templ setup with a simple page with a few example components
-- tailwindCSS setup with auto build from air
-- alpinejs setup
-- go server setup
-- docker setup
-- postgres setup with local and GCP connectors
+- go
+- npm
+- make
 
-## Before you start development
+## Build and Run
 
-- Decide how you want to use databases and eitehr remove the postgres setup or the GCP setup and roll your own or remove gorm if using direct connections
+Install tailwind
+
+```
+npm install tailwindcss
+```
+
+Build and run
+
+```
+make
+```
+
+Site is accessible at http://localhost:8080

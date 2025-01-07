@@ -67,10 +67,6 @@ var LeftMenu = []components.NavItem{
 
 var HamburgerMenu = slices.Concat(LeftMenu, []components.NavItem{
 	{
-		Text: "Components",
-		Path: "/components",
-	},
-	{
 		Text: "Blogs",
 		Path: "/blogs",
 	},
