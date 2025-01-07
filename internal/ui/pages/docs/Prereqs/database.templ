@@ -1,0 +1,21 @@
+package prereqs
+
+import . "github.com/gofs-cli/website/internal/ui/components"
+
+templ Database() {
+	<div class="flex flex-col gap-y-2">
+		<h1 class="mb-4 text-4xl font-extrabold">Database</h1>
+		<p class="para">
+			To run a local postgres you will need an OCI compliant container runtime such as:
+			<ul class="my-2 max-w-md list-inside list-disc space-y-1">
+				<li><a class="link" href="https://www.docker.com">Docker</a></li>
+				<li><a class="link" href="https://podman.io">Podman</a></li>
+			</ul>
+		</p>
+		<p class="para">
+			Once this is setup and you have initialized a project
+			you can start a Postgres instance with:
+			@Cmdline("make dbup")
+		</p>
+	</div>
+}

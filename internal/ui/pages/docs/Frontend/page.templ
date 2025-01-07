@@ -1,0 +1,146 @@
+package frontend
+
+import . "github.com/gofs-cli/website/internal/ui/components"
+
+templ Page() {
+	<div class="flex flex-col gap-y-2">
+		<h1 class="mb-4 text-4xl font-extrabold">Adding a Page</h1>
+		<h2 class="mt-2 text-2xl font-extrabold">The internal/ui folder</h2>
+		<p class="para">
+			Frontend pages are located in the <code>/internal/ui/pages</code> folder.
+		</p>
+		@CodeBlock(NoClipboard, `root
+|--internal
+|  |--ui
+|     |--components     // shared components
+|     |--pages          // frontend pages
+|     |--index.templ    // the app's main template page 
+|     |--handlers.go    // root handlers
+|     |--style.css      // custom style sheet (if you installed tailwind)
+`)
+		<p class="para">
+			The pages folder structure should mirror the structure of the website.
+			Keep handler and page components close to where they are used. 
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Indirection in code</h2>
+		<p class="para">
+			We recommend keeping indirection in pages to a minimum. This means
+			that sometimes it is better to repeat code in pages than to create
+			a new component that hides the code on a page. There are many tools
+			that will help you manage/refactor repeated code such as find-and-replace, 
+			multi-cursors, and so on. The goal is to make the code as easy to read and maintain
+			as possible. Sometimes this principle of simplicity goes against the 
+			principle of Do-Not-Repeat-Yourself (DRY), but on balance you gain more than
+			you loose.
+		</p>
+		<p class="para">
+			For example, this code is much easier to read and maintain than the
+			same code with indirection shown below it.
+			@CodeBlock(NoClipboard, `templ Page() {
+    <h2 class="mt-2 text-2xl font-extrabold">New section</h2>
+}
+`)
+			@CodeBlock(NoClipboard, `templ Page() {
+    @SomeHeadingComponent(SomePropsComponent{
+        Text: "New section",
+        Size: "2xl",
+        Font: "extrabold",
+    })
+}
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Example</h2>
+		<p class="para">
+			Lets continue the simple todo list app (mytodo) we started in backend
+			<a class="link" href="/docs/backend/module">here</a>. The design of mytodo
+			frontend is a single page showing all the todo lists and their items. 
+		</p>
+		<h3 class="text-2xl font-extrabold">Display todo lists</h3>
+		<p class="para">
+			Lets start by modifying the <code>/internal/ui/pages/index.templ</code> to 
+			take the todo lists as a parameter and display them.
+			@CodeBlock(NoClipboard, `mytodo
+|--internal
+|  |--ui
+|     |--pages
+|        |--index.templ
+`)
+			@CodeBlock(Clipboard, `package ui
+
+import "github.com/myorg/mytodo/internal/app/list"
+
+// add lists as a parameter to the Index templ
+templ Index(lists []list.List) {
+	<!DOCTYPE html>
+	<html lang="en">
+        ... header and script tags
+		<body hx-ext="response-targets" hx-target-error="this">
+			<main class="flex w-full flex-col">
+				// delete the example code in the main tag and add the following
+				for _, l := range lists {
+					<div class="flex flex-col gap-y-2">
+						<h2 class="text-2xl font-extrabold">{ l.Name }</h2>
+						<div class="flex flex-col gap-y-2">
+							for _, item := range list.Items {
+								<div class="flex items-center gap-x-2">
+									<span>{ item }</span>
+								</div>
+							}
+						</div>
+					</div>
+				}
+			</main>
+		</body>
+	</html>
+}
+`)
+		</p>
+		<h3 class="text-2xl font-extrabold">Add buttons</h3>
+		<p class="para">
+			Lets include buttons to add todo lists and items. Note that these
+			use <code>hx-post</code> to end points that we will create in the
+			next section and return the HTML to be swapped in.
+			@CodeBlock(Clipboard, `package ui
+
+import "github.com/myorg/mytodo/internal/app/lists"
+
+templ Index(lists []lists.List) {
+	<!DOCTYPE html>
+	<html lang="en">
+        ... header and script tags
+		<body hx-ext="response-targets" hx-target-error="this">
+			<main class="flex w-full flex-col">
+				for _, l := range lists {
+					<div class="flex flex-col gap-y-2">
+						<h2 class="text-2xl font-extrabold">{ l.Name }</h2>
+						<div class="flex flex-col gap-y-2">
+							for _, item := range list.Items {
+								<div class="flex items-center gap-x-2">
+									<span>{ item }</span>
+								</div>
+							}
+							<input id="todo-list-item" type="text"/>
+							<button 
+								type="button" 
+								hx-post={"/list/" + l.ID} 
+								hx-include="todo-list-item">
+								Add Item
+							</button>
+						</div>
+					</div>
+				}
+				<input id="todo-list-name" type="text"/>
+				<button 
+					type="button" 
+					hx-post="/list" 
+					hx-include="todo-list-name">
+					Add List
+				</button>
+			</main>
+		</body>
+	</html>
+}
+`)
+		</p>
+	</div>
+}

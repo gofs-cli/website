@@ -1,0 +1,51 @@
+package frontend
+
+import . "github.com/gofs-cli/website/internal/ui/components"
+
+templ Handler() {
+	<div class="flex flex-col gap-y-2">
+		<h1 class="mb-4 text-4xl font-extrabold">Adding a Handler</h1>
+		<p class="para">
+			Handlers are responsible for accepting incoming requests, validating requests,
+			calling the relevant backend functions, and then constructing a response back to 
+			the client. Handlers should be called with relevant server objects they need, for 
+			example the database connection, storage bucket, etc. 
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Location</h2>
+		<p class="para">
+			Place your handlers close to the pages that they handle. For example
+			@CodeBlock(NoClipboard, `root
+|--internal
+|  |--ui
+|     |--pages                  // frontend pages
+|        |--section             // website section 
+|           |--handlers.go      // section handlers 
+|           |--section_page.go  // section page 
+|     |--index.templ            // the app's main template page 
+|     |--handlers.go            // root handlers
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Database</h2>
+		<p class="para">
+			Handlers are responsible for wrapping operations in database transactions
+			and handling errors. For example in our mytodo app the main index
+			page will get the available todo lists as below.
+			@CodeBlock(Clipboard, `func Index(db db.DB) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var l []list.List
+		var err error
+		err = db.Transaction(r.Context(), func(tx *sql.Tx) error {
+			l, err = list.GetLists(r.Context(), tx)
+			return err
+		})
+		if err != nil {
+			http.Error(w, "error getting lists", http.StatusInternalServerError)
+			return
+		}
+		templ.Handler(ui.Index(l)).ServeHTTP(w, r)
+	})
+}
+`)
+		</p>
+	</div>
+}

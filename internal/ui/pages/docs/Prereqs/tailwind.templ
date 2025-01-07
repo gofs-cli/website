@@ -1,0 +1,84 @@
+package prereqs
+
+import . "github.com/gofs-cli/website/internal/ui/components"
+
+templ Tailwind() {
+	<div class="flex flex-col gap-y-2">
+		<h1 class="mb-4 text-4xl font-extrabold">Tailwind</h1>
+		<p class="para">
+			To setup Tailwind you will need to install tailwind, create a tailwind config, 
+			add a stylesheet and update the build scripts. Although not strictly
+			necessary, we recommend using npm in the build toolchain. We have assumed
+			npm is installed, the instructions are below.
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Installing npm</h2>
+		<p class="para">
+			You will need npm to add tailwind to the build script. The instructions for
+			install npm can be found 
+			<a class="link" href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">here</a>
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Installing Tailwind</h2>
+		<p class="para">
+			The command below will install the latest tailwind and create a package.json
+			@Cmdline("npm install tailwindcss")
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">tailwind.config.js</h2>
+		<p class="para">
+			In the project root, create a <code>tailwind.config.js</code> file. 
+			Here is an example of a vanilla config file
+			@CodeBlock(Clipboard, `/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./internal/ui/**/*.templ"],
+  darkMode: "class",
+  theme: {
+    extend: {
+      zIndex: {
+        toast: 100,
+      },
+      keyframes: {
+        zoomOut: {
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(0.5)" },
+        },
+        bounceInDown: {
+          "0%": { opacity: "0", transform: "translate3d(0, -3000px, 0)" },
+          "60%": { opacity: "1", transform: "translate3d(0, 25px, 0)" },
+          "75%": { transform: "translate3d(0, -10px, 0)" },
+          "90%": { transform: "translate3d(0, 5px, 0)" },
+          "100%": { transform: "none" },
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">style.css</h2>
+		<p class="para">
+			Create a <code>style.css</code> file with the content below. 
+			We recommend creating it in <code>/internal/ui</code>. You can add
+			your custom styles it this file.
+			@CodeBlock(Clipboard, `@tailwind base;
+@tailwind components;
+@tailwind utilities;
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Updating the build script</h2>
+		<p class="para">
+			Edit the <code>/scripts/air_build.sh</code> to include tailwind and
+			build the style.css for the site. Include it as below
+			@CodeBlock(Clipboard, `#!/usr/bin/env bash
+
+set -e
+set -u
+set -o pipefail
+set -x
+
+npx -y tailwindcss -i ./internal/ui/styles.css -o ./internal/server/assets/css/styles.css --minify
+templ generate
+go build -o ./tmp/main cmd/server/main.go
+`)
+		</p>
+	</div>
+}

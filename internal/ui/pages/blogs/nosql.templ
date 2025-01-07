@@ -1,0 +1,41 @@
+package blogs
+
+templ Nosql() {
+	<div class="flex flex-col gap-y-2 md:w-1/2">
+		<img class="h-96 w-full rounded-lg object-cover md:h-auto md:rounded-none" src="/assets/img/blogs/nosql.jpg" alt=""/>
+		<h1 class="mb-4 text-4xl font-extrabold">Sql DB, NoSql Schema</h1>
+		<p class="para">
+			Using an SQL database with a NoSQL schema may sound like an unconventional combination, 
+			but it’s a strategy increasingly being adopted to leverage the benefits of both 
+			relational and non-relational structures. This hybrid approach involves storing 
+			unstructured or semi-structured data in an SQL database while bypassing the rigid 
+			relational schema that typically defines the data structure. Instead of enforcing the 
+			tabular relationships common in SQL, the data may be stored in a more flexible format, 
+			such as JSON or XML, within a single column. Some modern relational database management 
+			systems (RDBMS) like PostgreSQL and MySQL have introduced support for these NoSQL-style 
+			data types, allowing for a hybrid approach where documents or key-value pairs can be 
+			stored alongside traditional relational data.
+		</p>
+		<p class="para">
+			This hybrid model offers several advantages. First, SQL databases provide a mature, 
+			stable, and well-understood environment for managing critical transactional data, 
+			ensuring ACID compliance, and leveraging the power of SQL queries. By using a NoSQL 
+			schema within this environment, developers can benefit from the flexibility of NoSQL 
+			in managing unstructured data, such as logs, metadata, or dynamic application data. 
+			For instance, product catalogs, user profiles, or session data might be better 
+			represented in JSON format, while transactional records like orders or inventory can 
+			still use traditional relational tables. This allows teams to manage different types 
+			of data in one system without resorting to the complexity of maintaining multiple 
+			databases. 
+		</p>
+		<p class="para">
+			Another advantage of this approach is the ability to evolve the data model over time
+			without requiring extensive schema migrations. In a traditional SQL database, adding
+			a new column or changing the structure of a table can be a complex and potentially
+			risky operation, especially in a production environment. By using a NoSQL schema for
+			certain data elements, developers can avoid these challenges and adapt the data model
+			more easily as requirements change. This can be particularly valuable in agile
+			development environments where rapid iteration and frequent changes are the norm.                                   
+		</p>
+	</div>
+}

@@ -1,0 +1,106 @@
+package frontend
+
+import . "github.com/gofs-cli/website/internal/ui/components"
+
+templ Routing() {
+	<div class="flex flex-col gap-y-2">
+		<h1 class="mb-4 text-4xl font-extrabold">Routing</h1>
+		<h2 class="mt-2 text-2xl font-extrabold">/internal/server/routes.go</h2>
+		<p class="para">
+			We recommend that Gofs apps keep routing code for the
+			entire app in <code>/internal/server/routes.go</code>. This makes it easy to
+			manage all routing from one place. You can use multiple files or create a
+			module for the routes if routing gets very complex, however it may be worth
+			simplifying your routing design if this is starting to happen.
+		</p>
+		<p class="para">
+			The Gofs default template ships with routing and handlers for static assets
+			in the <code>Routes</code> method, shown below.
+			@CodeBlock(NoClipboard, `func (s *Server) Routes() {
+	// filserver route for assets
+	assetMux := http.NewServeMux()
+	assetMux.Handle("GET /{path...}", http.StripPrefix("/assets/", handlers.NewHashedAssets(assets.FS)))
+	s.r.Handle("GET /assets/{path...}", s.assetsMiddlewares(assetMux)) 
+	...
+	// you can start adding your routes here
+}
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Uniformity</h2>
+		<p class="para">
+			We recommend page routes follow the structure of pages.
+			@CodeBlock(NoClipboard, `func (s *Server) Routes() {
+	...
+	routesMux := http.NewServeMux()
+	routesMux.Handle("GET /{$}", page.Index())
+	routesMux.Handle("GET /mysection1/mypage1", page.MySection1MyPage1())
+	routesMux.Handle("GET /mysection1/mypage2", page.MySection1MyPage2())
+	routesMux.Handle("GET /mysection2/mypage1", page.MySection2MyPage1())
+
+	s.r.Handle("/", s.routeMiddlewares(routesMux()))
+	...
+}
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">HTTP verbs</h2>
+		<p class="para">
+			Remember that Gofs pages are server-side rendered and call the backend directly
+			instead of through an api, see <a class="link" href="/docs/frontend/noapi">here</a>.
+			GET http calls should return a page, or HTML fragment that HTMX will swap into the page.
+			POST, PUT, DELETE http calls will perform their expected function and also return
+			either a page or HTML fragment. We recommend making the action of the http call
+			clear from the route. For example
+			@CodeBlock(NoClipboard, `
+routesMux.Handle("POST /myobject/create", page.CreateMyObject())
+routesMux.Handle("PUT /myobject/update", page.UpdateMyObject())
+routesMux.Handle("DELETE /myobject/delete", page.DeleteMyObject())
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Statelessness</h2>
+		<p class="para">
+			Gofs endpoints should be stateless and should use path variables
+			to indicate which elements they are referring to. For example
+			@CodeBlock(NoClipboard, `
+routesMux.Handle("GET /myobject/{id}/view", page.ViewMyObject())
+routesMux.Handle("PUT /myobject/{id}/update", page.UpdateMyObject())
+routesMux.Handle("DELETE /myobject/{id}/delete", page.DeleteMyObject())
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Example</h2>
+		<p class="para">
+			Lets looks at the mytodo app example we started earlier. There is only one page
+			which is the index page, and there are two action endpoints for adding a a todo list
+			and adding an item to a todo list. A complete example of the routing file
+			<code>/internal/server/routes.go</code> for mytodo is shown below.
+			@CodeBlock(NoClipboard, `package server
+
+import (
+	"net/http"
+
+	"github.com/myorg/mytodo/internal/server/assets"
+	"github.com/myorg/mytodo/internal/server/handlers"
+	"github.com/myorg/mytodo/internal/server/handlers/page"
+	"github.com/myorg/mytodo/internal/server/logging"
+	"github.com/myorg/mytodo/internal/server/telemetry/metrics"
+)
+
+func (s *Server) Routes() {
+	// fileserver route for assets
+	assetMux := http.NewServeMux()
+	assetMux.Handle("GET /{path...}", http.StripPrefix("/assets/", handlers.NewHashedAssets(assets.FS)))
+	s.r.Handle("GET /assets/{path...}", s.assetsMiddlewares(assetMux))
+
+	// handlers for normal routes with all general middleware
+	routesMux := http.NewServeMux()
+	routesMux.Handle("GET /{$}", page.Index(s.db))
+	routesMux.Handle("POST /list/create", page.CreateList(s.db))
+	routesMux.Handle("POST /list/{id}/add-item", page.AddItem(s.db))
+
+	s.r.Handle("/", s.routeMiddlewares(routesMux))
+
+	s.srv.Handler = metrics.Expose(s.r)
+}
+`)
+		</p>
+	</div>
+}
