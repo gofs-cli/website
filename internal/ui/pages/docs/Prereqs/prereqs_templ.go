@@ -47,15 +47,31 @@ func Prereqs() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><h2 class=\"mt-2 text-2xl font-extrabold\">Local Development</h2><p class=\"para\">The Gofs template includes a Makefile for convenience. You will need to install a make tool for example  <a class=\"link\" href=\"https://www.gnu.org/software/make/\">GNU Make</a></p><p class=\"para\">Once make is setup and you have initialized a project you can install all required dependencies with:")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><h2 class=\"mt-2 text-2xl font-extrabold\">Make</h2><p class=\"para\">The Gofs template includes a Makefile for convenience.   To check if you have make installed, run")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Cmdline("make deps").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Cmdline("make --version").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "This will install air, templ, htmx and alpine.</p></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "If you dont see a make version printed then you will need to install it with the instructions for your OS below.<h3 class=\"mt-2 text-xl font-bold\">MacOS</h3>On MacOS make comes with Xcode command line tools. Run this command in a terminal to install it")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Cmdline("xcode-select --install").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<h3 class=\"mt-2 text-xl font-bold\">Linux</h3>On Linux you can install it with or equivalent for your distro")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Cmdline("sudo apt-get install make").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<h3 class=\"mt-2 text-xl font-bold\">Windows</h3>On Windows you will need to install a make tool such as  <a class=\"link\" href=\"https://www.gnu.org/software/make/\">GNU Make</a></p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

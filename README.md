@@ -11,7 +11,7 @@
 Install tailwind
 
 ```
-npm install tailwindcss
+npm install
 ```
 
 Build and run

@@ -16,14 +16,20 @@ var LeftMenu = []components.NavItem{
 				Path: "/docs/prereqs/database",
 			},
 			{
-				Text: "Tailwind",
-				Path: "/docs/prereqs/tailwind",
+				Text: "Npm",
+				Path: "/docs/prereqs/npm",
 			},
 		},
 	},
 	{
 		Text: "Start a project",
 		Path: "/docs/start",
+		Children: []components.NavItem{
+			{
+				Text: "Adding tailwind",
+				Path: "/docs/start/tailwind",
+			},
+		},
 	},
 	{
 		Text: "Backend",

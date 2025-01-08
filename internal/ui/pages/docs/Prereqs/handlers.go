@@ -21,8 +21,8 @@ func DatabasePage() http.Handler {
 	})
 }
 
-func TailwindPage() http.Handler {
+func NpmPage() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		templ.Handler(ui.Index(docs.Docs(Tailwind(), "/docs/prereqs/tailwind"))).ServeHTTP(w, r)
+		templ.Handler(ui.Index(docs.Docs(Npm(), "/docs/prereqs/npm"))).ServeHTTP(w, r)
 	})
 }

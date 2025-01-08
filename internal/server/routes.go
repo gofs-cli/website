@@ -7,10 +7,10 @@ import (
 	"github.com/gofs-cli/website/internal/server/handlers"
 	"github.com/gofs-cli/website/internal/ui/pages"
 	"github.com/gofs-cli/website/internal/ui/pages/blogs"
-	"github.com/gofs-cli/website/internal/ui/pages/docs"
 	backend "github.com/gofs-cli/website/internal/ui/pages/docs/Backend"
 	frontend "github.com/gofs-cli/website/internal/ui/pages/docs/Frontend"
 	prereqs "github.com/gofs-cli/website/internal/ui/pages/docs/Prereqs"
+	start "github.com/gofs-cli/website/internal/ui/pages/docs/Start"
 )
 
 func (s *Server) Routes() {
@@ -26,8 +26,9 @@ func (s *Server) Routes() {
 	routesMux.Handle("GET /docs", prereqs.PrereqsPage())
 	routesMux.Handle("GET /docs/prereqs", prereqs.PrereqsPage())
 	routesMux.Handle("GET /docs/prereqs/database", prereqs.DatabasePage())
-	routesMux.Handle("GET /docs/prereqs/tailwind", prereqs.TailwindPage())
-	routesMux.Handle("GET /docs/start", docs.StartPage())
+	routesMux.Handle("GET /docs/prereqs/npm", prereqs.NpmPage())
+	routesMux.Handle("GET /docs/start", start.StartPage())
+	routesMux.Handle("GET /docs/start/tailwind", start.TailwindPage())
 	routesMux.Handle("GET /docs/backend/module", backend.ModulePage())
 	routesMux.Handle("GET /docs/backend/persistence", backend.PersistencePage())
 	routesMux.Handle("GET /docs/backend/codegen", backend.CodegenPage())

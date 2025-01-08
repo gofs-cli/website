@@ -1,4 +1,4 @@
-package docs
+package start
 
 import . "github.com/gofs-cli/website/internal/ui/components"
 
@@ -51,7 +51,13 @@ templ Start() {
 `)
 		<h2 class="mt-2 text-2xl font-extrabold">Dependencies</h2>
 		<p class="para">
-			Run make for the first time to get all dependencies and build the default app
+			Once you have initialized a project you can install all required dependencies with:
+			@Cmdline("make deps")
+			This will install air, templ, htmx and alpine.
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Start</h2>
+		<p class="para">
+			Run make to build and start the default app
 		</p>
 		@Cmdline("make")
 	</div>

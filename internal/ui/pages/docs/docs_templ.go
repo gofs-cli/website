@@ -70,7 +70,7 @@ func Docs(page templ.Component, path string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</aside><div class=\"flex px-[1rem] sm:w-1/2\" listen-for-intersection-of-titles>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</aside><div class=\"flex px-[1rem] sm:w-3/5\" listen-for-intersection-of-titles>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

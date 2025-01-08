@@ -1,25 +1,19 @@
-package prereqs
+package start
 
 import . "github.com/gofs-cli/website/internal/ui/components"
 
 templ Tailwind() {
 	<div class="flex flex-col gap-y-2">
-		<h1 class="mb-4 text-4xl font-extrabold">Tailwind</h1>
+		<h1 class="mb-4 text-4xl font-extrabold">Adding tailwind</h1>
 		<p class="para">
 			To setup Tailwind you will need to install tailwind, create a tailwind config, 
-			add a stylesheet and update the build scripts. Although not strictly
-			necessary, we recommend using npm in the build toolchain. We have assumed
-			npm is installed, the instructions are below.
-		</p>
-		<h2 class="mt-2 text-2xl font-extrabold">Installing npm</h2>
-		<p class="para">
-			You will need npm to add tailwind to the build script. The instructions for
-			install npm can be found 
-			<a class="link" href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">here</a>
+			add a stylesheet and update the build scripts and Dockerfile. Although not strictly
+			necessary, we recommend using npm in the build toolchain. The instructions
+			are in the Prerequisites section <a class="link" href="/docs/prereqs/npm">here</a>
 		</p>
 		<h2 class="mt-2 text-2xl font-extrabold">Installing Tailwind</h2>
 		<p class="para">
-			The command below will install the latest tailwind and create a package.json
+			The command below will install the latest tailwind and create a package.json file
 			@Cmdline("npm install tailwindcss")
 		</p>
 		<h2 class="mt-2 text-2xl font-extrabold">tailwind.config.js</h2>
@@ -78,6 +72,30 @@ set -x
 npx -y tailwindcss -i ./internal/ui/styles.css -o ./internal/server/assets/css/styles.css --minify
 templ generate
 go build -o ./tmp/main cmd/server/main.go
+`)
+		</p>
+		<h2 class="mt-2 text-2xl font-extrabold">Updating the Dockerfile</h2>
+		<p class="para">
+			Edit the <code>/Dockerfile</code> to include tailwind and
+			build the style.css for the site. Include it as below
+			@CodeBlock(Clipboard, `FROM golang:latest AS build
+
+WORKDIR /go/src/app
+COPY . .
+
+RUN go install github.com/a-h/templ/cmd/templ@latest
+RUN apt update && apt install npm -y
+RUN npm install -D tailwindcss
+RUN npx tailwindcss -i ./internal/ui/styles.css -o ./internal/server/assets/css/styles.css && templ generate
+
+RUN go mod download
+RUN CGO_ENABLED=0 go build -o /go/bin/app cmd/server/main.go
+
+FROM gcr.io/distroless/static-debian12:latest
+
+COPY --from=build /go/bin/app /
+EXPOSE 8080
+CMD ["/app"]
 `)
 		</p>
 	</div>
