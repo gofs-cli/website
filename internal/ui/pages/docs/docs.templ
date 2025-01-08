@@ -36,7 +36,7 @@ templ Docs(page templ.Component, path string) {
 		<aside class="hidden sm:block sm:w-56 sm:pl-8">
 			@Menu(path, pages.LeftMenu)
 		</aside>
-		<div class="flex px-[1rem] sm:w-3/5" listen-for-intersection-of-titles>
+		<div class="flex px-[1rem] sm:max-w-3xl" listen-for-intersection-of-titles>
 			@page
 		</div>
 		<aside class="fixed bottom-0 right-0 hidden w-64 overflow-y-auto px-6 md:top-[8rem] xl:block">
