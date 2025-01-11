@@ -5,7 +5,7 @@ templ Cmdline(cmd string) {
 		<div class="overflow-x-auto">
 			<code x-ref="cmd" class="text-gray-300">{ cmd }</code>
 		</div>
-		<button class="btn ml-3" @click="$clipboard($refs.cmd.innerHTML); copied = true; setTimeout(() => copied = false, 2000)">
+		<button class="btn ml-3" @click="$clipboard($refs.cmd.innerHTML); copied = true; setTimeout(() => copied = false, 2000)" aria-label="copy">
 			<svg
 				x-show="!copied"
 				class="h-6 w-6"

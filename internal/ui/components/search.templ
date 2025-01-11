@@ -1,4 +1,18 @@
 package components
 
 templ Search() {
+	<!-- Widget JavaScript bundle -->
+	<script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_US"></script>
+	<!-- Search widget element is not visible by default -->
+	<gen-search-widget
+		configId="d26f78a9-4ad6-478c-a6ab-be4d0735476e"
+		triggerId="searchWidgetTrigger"
+	></gen-search-widget>
+	<div class="relative">
+		<div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-black">
+			<svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path></svg>
+		</div>
+		<!-- Element that opens the widget on click. It does not have to be an input -->
+		<input class="block w-full rounded-full border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900" placeholder="Search..." id="searchWidgetTrigger"/>
+	</div>
 }

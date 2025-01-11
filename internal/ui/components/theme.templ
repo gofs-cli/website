@@ -5,6 +5,7 @@ templ Theme() {
 		@click="localStorage.setItem('color-theme', darkMode ? 'light' : 'dark'); darkMode = !darkMode;"
 		type="button"
 		class="rounded-lg p-2.5 text-sm text-black hover:text-gray-300 focus:outline-none dark:text-white dark:hover:text-gray-600"
+		aria-label="theme"
 	>
 		<svg :class="{'hidden': darkMode}" class="h-5 w-5 fill-current">
 			<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>

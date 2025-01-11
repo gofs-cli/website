@@ -9,7 +9,7 @@ templ CodeBlock(clipboard bool, code string) {
 	<div x-data="{ copied: false }" class="flex flex-col overflow-x-scroll rounded-md bg-gray-900 p-3 text-white sm:max-w-3xl">
 		if clipboard {
 			<div class="mb-2 flex justify-end">
-				<button class="btn ml-3" @click="$clipboard($refs.code.innerHTML); copied = true; setTimeout(() => copied = false, 2000)">
+				<button class="btn ml-3" @click="$clipboard($refs.code.innerHTML); copied = true; setTimeout(() => copied = false, 2000)" aria-label="copy">
 					<svg
 						x-show="!copied"
 						class="h-6 w-6 text-gray-800 dark:text-white"
