@@ -54,7 +54,15 @@ func Blogs(page templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"block sm:hidden\" x-data=\"{ show: false }\"><svg @click=\"show = !show\" class=\"m-3 h-6 w-6 fill-current hover:cursor-pointer\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z\"></path></svg><div x-show=\"show\" class=\"fixed bottom-0 right-0 top-0 z-[199] w-1/2 overflow-y-auto bg-gray-100 p-6 shadow-xl dark:bg-gray-900 md:top-[4rem]\" x-trap.inert.noscroll=\"show\" x-on:click.outside=\"show = false\" x-on:keydown.escape.prevent.stop=\"show = false\" x-transition:enter=\"transition ease-in-out duration-300 transform\" x-transition:enter-start=\"translate-x-full\" x-transition:enter-end=\"translate-x-0\" x-transition:leave=\"transition ease-in-out duration-300 transform\" x-transition:leave-start=\"translate-x-0\" x-transition:leave-end=\"translate-x-full\"><div class=\"flex justify-end\"><button class=\"text-gray-600 focus:outline-none\" x-on:click=\"show = ! show\"><span class=\"sr-only\">Close navigation</span> <svg class=\"h-6 w-6\" stroke=\"currentColor\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M6 18L18 6M6 6l12 12\"></path></svg></button></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"block sm:hidden\" x-data=\"{ show: false }\"><svg @click=\"show = !show\" class=\"m-3 h-6 w-6 fill-current hover:cursor-pointer\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z\"></path></svg><div x-show=\"show\" class=\"fixed bottom-0 right-0 top-0 z-[199] w-1/2 overflow-y-auto bg-gray-100 p-6 shadow-xl dark:bg-gray-900 md:top-[4rem]\" x-trap.inert.noscroll=\"show\" x-on:click.outside=\"show = false\" x-on:keydown.escape.prevent.stop=\"show = false\" x-transition:enter=\"transition ease-in-out duration-300 transform\" x-transition:enter-start=\"translate-x-full\" x-transition:enter-end=\"translate-x-0\" x-transition:leave=\"transition ease-in-out duration-300 transform\" x-transition:leave-start=\"translate-x-0\" x-transition:leave-end=\"translate-x-full\"><div class=\"flex justify-end\"><button class=\"text-gray-600 focus:outline-none\" x-on:click=\"show = ! show\"><span class=\"sr-only\">Close navigation</span> <svg class=\"h-6 w-6\" stroke=\"currentColor\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M6 18L18 6M6 6l12 12\"></path></svg></button></div><div class=\"py-5\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Search().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -62,7 +70,7 @@ func Blogs(page templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div></nav><div class=\"mt-[8rem] flex items-center justify-center p-3\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div></nav><div class=\"mt-[8rem] flex items-center justify-center p-3\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -70,7 +78,7 @@ func Blogs(page templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
